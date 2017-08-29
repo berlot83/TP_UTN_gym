@@ -3,22 +3,17 @@ package com.utn.vista;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
-
 import com.utn.controladores.Utilidades;
 import com.utn.entidades.Boxeador;
 import com.utn.entidades.Entrenador;
@@ -30,15 +25,14 @@ public class Ventana extends JFrame implements ActionListener {
 	int indiceEntrenador = 0;
 
 	public JPanel panelArriba, panelMedio, panelAbajo, panelInterno1, panelInterno2;
-	public ImageIcon banner, iconoMas, iconoVer, iconoLimpiar, iconoSalir, iconoRegistro;
-	public JButton agregarEntrenador, agregarBoxeador, verEntrenadores, verBoxeadores, detalles, clear, salir;
+	public ImageIcon banner, iconoMas, iconoVer, iconoLimpiar, iconoSalir, iconoRegistro, iconoAsignarEntrenadores;
+	public JButton agregarEntrenador, agregarBoxeador, verEntrenadores, verBoxeadores, asignarEntrenadores, detalles, clear, salir;
 	public JLabel labelImage, nombreEntrenador, pesoEntrenador, nombreBoxeador, pesoBoxeador;
 	public JTextField textNombreEntrenador, textPesoEntrenador, textNombreBoxeador, textPesoBoxeador;
 	public JTextArea areaIngreso;
 	public JScrollPane scroll;
 
 	public Ventana() {
-		Scanner se = new Scanner(System.in);
 		this.setLayout(new BorderLayout());
 		panelArriba = new JPanel();
 		panelMedio = new JPanel();
@@ -48,6 +42,7 @@ public class Ventana extends JFrame implements ActionListener {
 		banner = new ImageIcon("../Gimnasio/src/com/utn/imagenes/bannergym.png");
 		iconoMas = new ImageIcon("../Gimnasio/src/com/utn/imagenes/mas.png");
 		iconoVer = new ImageIcon("../Gimnasio/src/com/utn/imagenes/ver.png");
+		iconoAsignarEntrenadores = new ImageIcon("../Gimnasio/src/com/utn/imagenes/boxeo.png");
 		iconoLimpiar = new ImageIcon("../Gimnasio/src/com/utn/imagenes/limpiar.png");
 		iconoRegistro = new ImageIcon("../Gimnasio/src/com/utn/imagenes/registro.png");
 		iconoSalir = new ImageIcon("../Gimnasio/src/com/utn/imagenes/salir.png");
@@ -56,18 +51,19 @@ public class Ventana extends JFrame implements ActionListener {
 		pesoEntrenador = new JLabel("Peso del Entrenador");
 		nombreBoxeador = new JLabel("Nombre del Boxeador");
 		pesoBoxeador = new JLabel("Peso del Boxeador");
-		agregarEntrenador = new JButton("Entrenador",iconoMas);
-		agregarBoxeador = new JButton("Boxeador",iconoMas);
-		verEntrenadores = new JButton("Entrenadores disponibles",iconoVer);
-		verBoxeadores = new JButton("Boxeadores disponibles",iconoVer);
+		agregarEntrenador = new JButton("Entrenador", iconoMas);
+		agregarBoxeador = new JButton("Boxeador", iconoMas);
+		verEntrenadores = new JButton("Entrenadores disponibles", iconoVer);
+		verBoxeadores = new JButton("Boxeadores disponibles", iconoVer);
+		asignarEntrenadores = new JButton("Asignar Ent.", iconoAsignarEntrenadores);
 		clear = new JButton("Limpiar", iconoLimpiar);
-		detalles = new JButton("Detalles",iconoRegistro);
+		detalles = new JButton("Detalles", iconoRegistro);
 		salir = new JButton("Salir", iconoSalir);
 		textNombreEntrenador = new JTextField(10);
 		textPesoEntrenador = new JTextField(3);
 		textNombreBoxeador = new JTextField(10);
 		textPesoBoxeador = new JTextField(3);
-		areaIngreso = new JTextArea(20, 55);
+		areaIngreso = new JTextArea(10, 55);
 		areaIngreso.setBackground(Color.darkGray);
 		areaIngreso.setForeground(Color.green);
 		scroll = new JScrollPane(areaIngreso);
@@ -96,7 +92,6 @@ public class Ventana extends JFrame implements ActionListener {
 		panelInterno2.add(textNombreBoxeador);
 		panelInterno2.add(pesoBoxeador);
 		panelInterno2.add(textPesoBoxeador);
-
 		panelMedio.add(scroll);
 
 		// Panel Abajo
@@ -105,6 +100,7 @@ public class Ventana extends JFrame implements ActionListener {
 		panelAbajo.add(agregarBoxeador);
 		panelAbajo.add(verEntrenadores);
 		panelAbajo.add(verBoxeadores);
+		panelAbajo.add(asignarEntrenadores);
 		panelAbajo.add(clear);
 		panelAbajo.add(detalles);
 		panelAbajo.add(salir);
@@ -113,6 +109,7 @@ public class Ventana extends JFrame implements ActionListener {
 		this.agregarBoxeador.addActionListener(this);
 		this.verEntrenadores.addActionListener(this);
 		this.verBoxeadores.addActionListener(this);
+		this.asignarEntrenadores.addActionListener(this);
 		this.clear.addActionListener(this);
 		this.detalles.addActionListener(this);
 		this.salir.addActionListener(this);
@@ -124,6 +121,7 @@ public class Ventana extends JFrame implements ActionListener {
 
 		Object obj = e.getSource();
 		if (obj.equals(agregarEntrenador)) {
+			areaIngreso.setText("");
 			if (indiceEntrenador < 4) {
 				areaIngreso.setForeground(Color.green);
 				Entrenador entrenador1 = new Entrenador(textNombreEntrenador.getText(),
@@ -132,11 +130,9 @@ public class Ventana extends JFrame implements ActionListener {
 				indiceEntrenador++;
 
 				Utilidades.calculoCategoriaEntrenador(entrenador1);
-				areaIngreso.append("ID: "+indiceEntrenador+"   Entrenador: " + entrenadores[indiceEntrenador - 1].getNombre() + "   Categorías: "
-						+ entrenadores[indiceEntrenador - 1].getCategoria() + "\n");
-
-				Entrenador.agregarEntrenadores(entrenador1);
-				System.out.println(indiceEntrenador);
+				areaIngreso.append(
+						"ID: " + indiceEntrenador + "   Entrenador: " + entrenadores[indiceEntrenador - 1].getNombre()
+								+ "   Categorías: " + entrenadores[indiceEntrenador - 1].getCategoria() + "\n");
 			} else {
 				areaIngreso.setText("");
 				areaIngreso.setForeground(Color.red);
@@ -145,28 +141,49 @@ public class Ventana extends JFrame implements ActionListener {
 		}
 
 		Object obj2 = e.getSource();
-		if (obj2.equals(agregarBoxeador) && indiceBoxeador < 20) {
+		if (obj2.equals(agregarBoxeador) && indiceBoxeador < 21) {
+			areaIngreso.setText("");
 			areaIngreso.setForeground(Color.green);
 			Boxeador boxeador1 = new Boxeador(textNombreBoxeador.getText(),
 					Integer.parseInt(textPesoBoxeador.getText()));
 			boxeadores[indiceBoxeador] = boxeador1;
 			indiceBoxeador++;
-			if (boxeador1 != null && indiceBoxeador < 20) {
+			if (boxeador1 != null && indiceBoxeador < 21) {
 				Utilidades.calculoCategoriaBoxeador(boxeador1);
-				areaIngreso.append("ID: "+indiceBoxeador+"   Boxeador: " + boxeadores[indiceBoxeador - 1].getNombre() + "   Peso: "
-						+ boxeadores[indiceBoxeador - 1].getPeso() + "  Categoria: "
-						+ boxeadores[indiceBoxeador - 1].getCategoria() + "\n");
+				areaIngreso
+						.append("ID: " + indiceBoxeador + "   Boxeador: " + boxeadores[indiceBoxeador - 1].getNombre()
+								+ "   Peso: " + boxeadores[indiceBoxeador - 1].getPeso() + "  Categoria: "
+								+ boxeadores[indiceBoxeador - 1].getCategoria() + "\n");
 			} else {
 				areaIngreso.setText("");
 				areaIngreso.setForeground(Color.red);
 				areaIngreso.append("Superó el límite de boxeadores\n");
 			}
 		}
-		
-		Object asignarEntrenador = e.getSource();
-		if(asignarEntrenador.equals(obj2)){
-			
+
+/*		
+//Pruebas 1, Este código pretende asignar a cada boxeador un entrenador, no funciona bien
+ * 
+		if (asignarEntrenador.equals(asignarEntrenadores)) {
+			int contadorEntrenadores = 0;
+			for (int i = 0; i <= boxeadores.length; i++) {
+				if(boxeadores[i].getPeso() > 91){
+					while (entrenadores[i].getPeso() > 91 && contadorEntrenadores <= 4) {
+					boxeadores[i].setEntrenadorAsignado(entrenadores[i].getNombre());
+					areaIngreso.append("Al boxeador "+boxeadores[i].getNombre()+" se le ha asignado el siguiente entrenador: "+boxeadores[i].getEntrenadorAsignado()+ "\n");
+					System.out.println(boxeadores[i].getEntrenadorAsignado());
+					}
+				}
+				if(boxeadores[i].getPeso() <= 91 && boxeadores[i].getPeso() > 76){
+					while (entrenadores[i].getPeso() <= 91 && entrenadores[i].getPeso() > 76 && contadorEntrenadores <= 4){
+					boxeadores[i].setEntrenadorAsignado(entrenadores[i].getNombre());
+					areaIngreso.append("Al boxeador "+boxeadores[i].getNombre()+" se le ha asignado el siguiente entrenador: "+boxeadores[i].getEntrenadorAsignado()+ "\n");
+					System.out.println(boxeadores[i].getEntrenadorAsignado());
+					}
+				}
+			}
 		}
+*/
 
 		Object accionEntrenadores = e.getSource();
 		if (accionEntrenadores.equals(verEntrenadores)) {
@@ -196,10 +213,21 @@ public class Ventana extends JFrame implements ActionListener {
 		Object objetoDetalles = e.getSource();
 		if (objetoDetalles.equals(detalles)) {
 			VentanaResultado v = new VentanaResultado();
-			v.setBounds(100, 100, 250, 150);
+			v.setBounds(100, 100, 250, 380);
 			v.setVisible(true);
 			v.setLocationRelativeTo(null);
 			v.areaIngreso.setFont(areaIngreso.getFont().deriveFont(16f));
+			v.areaIngreso.append("--------- Alumnos por categorías ---------\n");
+			v.areaIngreso.append("Pesados: "+Utilidades.cantidadBoxeadoresPesados()+ "\n");
+			v.areaIngreso.append("Medios pesados: "+Utilidades.cantidadBoxeadoresMediosPesados()+ "\n");
+			v.areaIngreso.append("Medianos: "+Utilidades.cantidadBoxeadoresMedianos()+ "\n");
+			v.areaIngreso.append("Welters: "+Utilidades.cantidadBoxeadoresWelters()+ "\n");
+			v.areaIngreso.append("Ligeros: "+Utilidades.cantidadBoxeadoresLigeros()+ "\n");
+			v.areaIngreso.append("Gallos: "+Utilidades.cantidadBoxeadoresGallo()+ "\n");
+			v.areaIngreso.append("Plumas: "+Utilidades.cantidadBoxeadoresPlumas()+ "\n");
+			v.areaIngreso.append("Moscas: "+Utilidades.cantidadBoxeadoresMosca()+ "\n");
+			v.areaIngreso.append("\n");
+			v.areaIngreso.append("------------------- Totales -------------------\n");
 			v.areaIngreso.append("Total Entrenadores: " + indiceEntrenador + "\n");
 			v.areaIngreso.append("Total Boxeadores: " + indiceBoxeador + "\n");
 			int totalPersonas = indiceEntrenador + indiceBoxeador;

@@ -4,6 +4,7 @@ import com.utn.entidades.Boxeador;
 import com.utn.entidades.Entrenador;
 
 public class Utilidades {
+	
 	static int indicePesados = 0;
 	static int indiceMedioPesados = 0;
 	static int indiceMedianos = 0;
@@ -58,15 +59,36 @@ public class Utilidades {
 		}
 	}
 	
-	public static void cantidadBoxeadoresPorCategoria(){
-		System.out.println("Pesados: "+indicePesados);
-		System.out.println("Medios pesados: "+indiceMedioPesados);
-		System.out.println("Medianos: "+indiceMedianos);
-		System.out.println("Welters: "+indiceWelters);
-		System.out.println("Ligeros: "+indiceLigero);
-		System.out.println("Plumas: "+indicePluma);
-		System.out.println("Gallos: "+indiceGallo);
-		System.out.println("Moscas: "+indiceMosca);
+	public static int cantidadBoxeadoresPesados(){
+		return indicePesados;
+	}
+	
+	public static int cantidadBoxeadoresMediosPesados(){
+		return indiceMedioPesados;
+	}
+	
+	public static int cantidadBoxeadoresMedianos(){
+		return indiceMedianos;
+	}
+	
+	public static int cantidadBoxeadoresWelters(){
+		return indiceWelters;
+	}
+	
+	public static int cantidadBoxeadoresLigeros(){
+		return indiceLigero;
+	}
+	
+	public static int cantidadBoxeadoresPlumas(){
+		return indicePluma;
+	}
+	
+	public static int cantidadBoxeadoresGallo(){
+		return indiceGallo;
+	}
+	
+	public static int cantidadBoxeadoresMosca(){
+		return indiceMosca;
 	}
 
 }
