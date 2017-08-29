@@ -118,7 +118,9 @@ public class Ventana extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		
+		//Entrenador entrenador1;
+		
 		Object obj = e.getSource();
 		if (obj.equals(agregarEntrenador)) {
 			areaIngreso.setText("");
@@ -160,30 +162,31 @@ public class Ventana extends JFrame implements ActionListener {
 				areaIngreso.append("Superó el límite de boxeadores\n");
 			}
 		}
-
-/*		
+	
 //Pruebas 1, Este código pretende asignar a cada boxeador un entrenador, no funciona bien
- * 
+		Object asignarEntrenador = e.getSource();
 		if (asignarEntrenador.equals(asignarEntrenadores)) {
-			int contadorEntrenadores = 0;
+		areaIngreso.setText("");
+		int contadorEntrenadores = 0;
+		for(int j = 0; j < entrenadores.length; j++){
 			for (int i = 0; i <= boxeadores.length; i++) {
 				if(boxeadores[i].getPeso() > 91){
-					while (entrenadores[i].getPeso() > 91 && contadorEntrenadores <= 4) {
-					boxeadores[i].setEntrenadorAsignado(entrenadores[i].getNombre());
+					while (entrenadores[j].getPeso() > 91) {
+					boxeadores[i].setEntrenadorAsignado(entrenadores[j].getNombre());
 					areaIngreso.append("Al boxeador "+boxeadores[i].getNombre()+" se le ha asignado el siguiente entrenador: "+boxeadores[i].getEntrenadorAsignado()+ "\n");
-					System.out.println(boxeadores[i].getEntrenadorAsignado());
+					break;
 					}
 				}
 				if(boxeadores[i].getPeso() <= 91 && boxeadores[i].getPeso() > 76){
-					while (entrenadores[i].getPeso() <= 91 && entrenadores[i].getPeso() > 76 && contadorEntrenadores <= 4){
-					boxeadores[i].setEntrenadorAsignado(entrenadores[i].getNombre());
+					while (entrenadores[j].getPeso() <= 91 && entrenadores[j].getPeso() > 76){
+					boxeadores[i].setEntrenadorAsignado(entrenadores[j].getNombre());
 					areaIngreso.append("Al boxeador "+boxeadores[i].getNombre()+" se le ha asignado el siguiente entrenador: "+boxeadores[i].getEntrenadorAsignado()+ "\n");
-					System.out.println(boxeadores[i].getEntrenadorAsignado());
+					break;
 					}
 				}
 			}
+			}
 		}
-*/
 
 		Object accionEntrenadores = e.getSource();
 		if (accionEntrenadores.equals(verEntrenadores)) {
